@@ -1,6 +1,3 @@
-#include <GL/glew.h>
-#include <GL/gl.h>
-
 #include "shader.h"
 
 #include <stdio.h>
@@ -12,12 +9,12 @@ using namespace std;
 
 const GLchar* ReadShader(const char* filename)
 {
-#ifdef _MSVC
+#ifdef _WIN32
 	FILE* infile;
-	fopen_s( &infile, filename, "rb" );
+	fopen( &infile, filename, "rb" );
 #else
     FILE* infile = fopen( filename, "rb" );
-#endif //_MSVC
+#endif //_WIN32
 
     if ( !infile ) {
 #ifdef _DEBUG
@@ -79,9 +76,6 @@ GLuint compileShader(GLenum type, const GLchar *filename)
 
 GLuint compileShaders(string vertShaderName, string fragShaderName)
 {
-	glewExperimental = GL_TRUE;
-	glewInit();
-	
 	GLuint vertShader=compileShader(GL_VERTEX_SHADER,vertShaderName.c_str());
 	GLuint fragShader=compileShader(GL_FRAGMENT_SHADER,fragShaderName.c_str());
 

@@ -23,11 +23,9 @@ The contents are listed below:
 * data: Required textures and other data files are in this folder.
 
 ## Requirements
-For LibMikuMikuPenguin, `libglfw`, `libglew`, `libglm`, and `libBullet` are needed.
+For LibMikuMikuPenguin, libglfw, libglew, libglm, and libBullet are needed.
 
-For PMXViewer, libmmp and `libSOIL` are needed. If you want to play music along with the VMD motion, you'll need `SDL2` and `SDL2_mixer`. (You can compile the code without music playback support)
-
-[ubuntu example](https://github.com/sn0w75/MikuMikuPenguin/blob/master/install_ubuntu.md)
+For PMXViewer, libmmp and libSOIL are needed. If you want to play music along with the VMD motion, you'll need SDL2 and SDL2_mixer. (You can compile the code without music playback support)
 
 ### Details about libraries (1/20/2014):
 * libglfw: At the time of writing 2.7 is needed. Versions 3.0+ are not supported.
@@ -51,7 +49,8 @@ This source code uses autotools, so compiling the code is very simple:
 
 To compile, run the following commands in a terminal:
 
-    $ cmake .
+    $ autoreconf -i
+    $ ./configure
     $ make
 
 To install libmmp and PMXViewer on your system, run:

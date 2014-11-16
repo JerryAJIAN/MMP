@@ -13,5 +13,6 @@
 
 #include "texthandle.h"
 #include "shader.h"
+#include "glfw_func_callbacks.h"
 
 #endif

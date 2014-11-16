@@ -1,6 +1,3 @@
-#include <GL/glew.h>
-#include <GL/gl.h>
-
 #include "motioncontroller.h"
 
 #include "interpolation.h"

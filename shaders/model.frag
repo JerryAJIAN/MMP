@@ -40,10 +40,7 @@ vec4 getSphereColor()
 }
 
 void main()
-{	
-	//color = vec4(0.0, 1.0, 0.0, 1.0);
-	//return;
-	
+{
 	if(isEdge)
 	{
 		color=edgeColor;

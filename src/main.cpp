@@ -1,17 +1,29 @@
-#include <QGuiApplication>
-#include <QtQuick/QQuickView>
-#include "openglscene.h"
-#include "fboinsgrenderer.h"
-
+//g++ *.cpp src/*.cpp src/*.cc -o pmx -I/usr/include/bullet -lglfw -lGLU -lGLEW -lGL -lSDL2 -lSDL2_mixer -ggdb -lSOIL -lBulletDynamics -lBulletCollision -lLinearMath -lBulletSoftBody -std=c++11
 #include <iostream>
+#include <fstream>
+#include <sstream>
+
+
+#include <libmmp.h>
+/*#include "texthandle.h"
+#include "pmx.h"
+#include "vmd.h"
+#include "pmxvLogger.h"
+
+#include "viewer.h"*/
+#include "pmxvLogger.h"
+#include "viewer.h"
 
 using namespace std;
 
 void printHelpInfo()
 {
-	cout<<"This is MMPEditor, a VMD motion editor using the MikuMikuPenguin library."<<endl
-	<<"Usage: MMPEditor [options] model_file.pmx motion_file.vmd"<<endl
+	cout<<"This is PMXViewer, a demonstration using the MikuMikuPenguin library."<<endl
+	<<"Usage: pmx [options] model_file.pmx motion_file.vmd"<<endl
 	<<"Options: "<<endl
+	<<"  -s\tPlay sound file to go with VMD motion"<<endl
+	<<"\tOnly formats compatible with your build of SDL2_mixer are accepted."<<endl
+	<<"\tIf libmmp was compiled without SDL2_mixer support, no music will play."<<endl<<endl
 	<<"  --help\tdisplay this help and exit"<<endl
 	<<"  --version\toutput version information and exit"<<endl<<endl
 	<<"FOR JAPANESE DOCUMENTATION, SEE:"<<endl
@@ -21,17 +33,18 @@ void printHelpInfo()
 
 void printVersionInfo()
 {
-	cout<<"MMPEditor v1.0"<<endl
+	cout<<"PMXViewer v0.1"<<endl
 	<<"Copyright (C) 2014 Ben Clapp (sn0w75)"<<endl
      <<"This is free software; see the source for copying conditions.  There is NO"<<endl
      <<"warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE."<<endl
      <<"Written by Ben Clapp (sn0w75), <ibenrunnin@gmail.com>."<<endl<<endl;
 }
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
-    string model_file="";
+	string model_file="";
 	string motion_file="";
+	string music_file="";
 	
 	int count=0;
 	if(argc > 1)
@@ -47,6 +60,10 @@ int main(int argc, char **argv)
 			{
 				printVersionInfo();
 				return 0;
+			}
+			else if(string(argv[count]) == "-s")
+			{
+				if(count+1<argc) music_file=argv[count+1];
 			}
 			else
 			{
@@ -80,20 +97,12 @@ int main(int argc, char **argv)
 		printHelpInfo();
 		return 0;
 	}
-    
-    
-    
-    
-    
-    QGuiApplication app(argc, argv);
-
-    qmlRegisterType<OpenGLScene>("OpenGLUnderQML", 1, 0, "OpenGLScene");
-	qmlRegisterType<FboInSGRenderer>("SceneGraphRendering", 1, 0, "Renderer");
-
-    QQuickView view;
-    view.setResizeMode(QQuickView::SizeRootObjectToView);
-    view.setSource(QUrl::fromLocalFile(DATA_PATH"/qml/main.qml"));
-    view.show();
-
-    return app.exec();
+	cout<<"sizeinfo: "<<sizeof(VertexData)<<" "<<sizeof(GLfloat)<<" "<<sizeof(glm::vec2)<<endl;
+	
+	Viewer viewer(model_file,motion_file,music_file);
+	
+	viewer.run();
+	
+	delete pmxvLogger::get();	
+	return 0;
 }
